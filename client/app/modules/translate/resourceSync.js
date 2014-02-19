@@ -36,7 +36,8 @@ function(Backbone, ns, _, $, i18n) {
         resRemovePath: 'locales/remove/__lng__/__ns__',
         fallbackLng: 'dev',
         lowerCaseLng: false,
-        sendType: 'POST',
+        sendTypeUpdate: 'POST',
+        sendTypeRemove: 'POST',
         postAsync: 'true',
         getAsync: 'true'
     };
@@ -76,7 +77,7 @@ function(Backbone, ns, _, $, i18n) {
             if (lng.indexOf('-') === 2 && lng.length === 5) {
                 var parts = lng.split('-');
 
-                lng = this.options.lowerCaseLng ? 
+                lng = this.options.lowerCaseLng ?
                     parts[0].toLowerCase() +  '-' + parts[1].toLowerCase() :
                     parts[0].toLowerCase() +  '-' + parts[1].toUpperCase();
 
@@ -98,7 +99,7 @@ function(Backbone, ns, _, $, i18n) {
                 self.resStore = self.resStore || {};
                 _.extend(self.resStore, store);
                 callback();
-            }); 
+            });
         },
 
         flatten: function(store, options) {
@@ -106,7 +107,7 @@ function(Backbone, ns, _, $, i18n) {
               , lng, ns, node;
 
             function recurse(lng, ns, appendTo, obj, parentKey) {
-                
+
                 for (var m in obj) {
                     var kv
                       , value = obj[m]
@@ -119,7 +120,7 @@ function(Backbone, ns, _, $, i18n) {
                     }
 
                     if (typeof value === 'string') {
-                        kv = { 
+                        kv = {
                             id: key.replace(new RegExp(' ', 'g'), ''),
                             lng: lng,
                             ns: ns,
@@ -132,7 +133,7 @@ function(Backbone, ns, _, $, i18n) {
                         };
                         appendTo.push(kv);
                     } else if (Object.prototype.toString.apply(value) === '[object Array]') {
-                        kv = { 
+                        kv = {
                             id: key.replace(new RegExp(' ', 'g'), ''),
                             lng: lng,
                             ns: ns,
@@ -179,7 +180,7 @@ function(Backbone, ns, _, $, i18n) {
                         var tNS = target[ns] || new Collections.Resources();
 
                         sNS.each(function(res) {
-                            if (!tNS.get(res.id) && 
+                            if (!tNS.get(res.id) &&
                                 res.get('fallback').lng === res.get('lng')) {
                                 tNS.push({
                                     id: res.id,
@@ -199,7 +200,7 @@ function(Backbone, ns, _, $, i18n) {
                 }
             }
 
-            for (lng in flat) { 
+            for (lng in flat) {
                 merge(lng, this._toLanguages(lng));
             }
 
@@ -211,11 +212,11 @@ function(Backbone, ns, _, $, i18n) {
             var payload = {};
             payload[key] = value;
 
-            var url = applyReplacement(this.options.resChangePath, { lng: lng, ns: ns });
+            var url = applyReplacement(this.options.resChangePath, { lng: lng, ns: ns, key: key });
 
             i18n.functions.ajax({
                 url: url,
-                type: this.options.sendType,
+                type: this.options.sendTypeUpdate,
                 data: payload,
                 success: function(data, status, xhr) {
                     i18n.functions.log('posted change key \'' + key + '\' to: ' + url);
@@ -275,7 +276,7 @@ function(Backbone, ns, _, $, i18n) {
                                     lng: lng,
                                     isArray: false
                                 }
-                            }); 
+                            });
                         }
                     } else {
                         flat.set('value', value);
@@ -298,11 +299,11 @@ function(Backbone, ns, _, $, i18n) {
             var payload = {};
             payload[key] = value;
 
-            var url = applyReplacement(this.options.resRemovePath, { lng: lng, ns: ns });
+            var url = applyReplacement(this.options.resRemovePath, { lng: lng, ns: ns, key: key });
 
             i18n.functions.ajax({
                 url: url,
-                type: this.options.sendType,
+                type: this.options.sendTypeRemove,
                 data: payload,
                 success: function(data, status, xhr) {
                     i18n.functions.log('posted remove key \'' + key + '\' to: ' + url);
