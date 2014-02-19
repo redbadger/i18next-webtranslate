@@ -7,9 +7,6 @@
 
   <title>i18next - webtranslate</title>
 
-  <!-- Application root. -->
-  <base href="/">
-
   <!-- Application styles. -->
   <link rel="stylesheet" href="assets/css/index.css">
 </head>
@@ -34,12 +31,15 @@
 
       wt.config(
         {
-          languages: ['en', 'de-CH', 'fr', 'it', 'dev'],
-          namespaces: ['ns.app', 'ns.common', 'ns.layout', 'ns.msg', 'ns.special'],
-          resGetPath: "locales/resources.json?lng=__lng__&ns=__ns__",
-          resChangePath: 'locales/change/__lng__/__ns__',
-          resRemovePath: 'locales/remove/__lng__/__ns__',
-          fallbackLng: "dev",
+          languages: ['fr'],
+          namespaces: ['app'],
+          resGetPath: "https://lmtest.firebaseio.com/locales.json",
+          resChangePath: 'https://lmtest.firebaseio.com/locales/__lng__/__ns__/__key__.json',
+          resRemovePath: 'https://lmtest.firebaseio.com/locales/__lng__/__ns__.json',
+          sendTypeUpdate: 'PUT',
+          sendTypeRemove: 'DELETE',
+          fallbackLng: "fr",
+          keyseparator: '/',
           dynamicLoad: true
         }
       )

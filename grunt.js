@@ -163,39 +163,39 @@ module.exports = function(grunt) {
     //
     //  To learn more about using the server task, please refer to the code
     //  until documentation has been written.
-    // server: {
-    //   files: { "favicon.ico": "client/assets/favicon.ico" },
+    server: {
+      files: { "favicon.ico": "client/assets/favicon.ico" },
 
-    //   folders: {
-    //       "app": "client/app",
-    //       "assets": "client/assets",
-    //       "app/templates": "client/assets/templates"
-    //   },
+      folders: {
+          "app": "client/app",
+          "assets": "client/assets",
+          "app/templates": "client/assets/templates"
+      },
 
-    //   debug: {
-    //     files: { "favicon.ico": "client/favicon.ico" },
+      debug: {
+        files: { "favicon.ico": "client/favicon.ico" },
 
-    //     folders: {
-    //       "app": "client/dist/debug",
-    //       "assets/js/libs": "client/dist/debug"
-    //     }
-    //   },
+        folders: {
+          "app": "client/dist/debug",
+          "assets/js/libs": "client/dist/debug"
+        }
+      },
 
-    //   release: {
-    //     // These two options make it easier for deploying, by using whatever
-    //     // PORT is available in the environment and defaulting to any IP.
-    //     host: "0.0.0.0",
-    //     port: process.env.PORT || 8000,
+      release: {
+        // These two options make it easier for deploying, by using whatever
+        // PORT is available in the environment and defaulting to any IP.
+        host: "0.0.0.0",
+        port: process.env.PORT || 8000,
 
-    //     files: { "favicon.ico": "client/favicon.ico" },
+        files: { "favicon.ico": "client/favicon.ico" },
 
-    //     folders: {
-    //       "app": "client/dist/release",
-    //       "assets/js/libs": "client/dist/release",
-    //       "assets/css": "client/dist/release"
-    //     }
-    //   }
-    // },
+        folders: {
+          "app": "client/dist/release",
+          "assets/js/libs": "client/dist/release",
+          "assets/css": "client/dist/release"
+        }
+      }
+    },
 
     // This task uses James Burke's excellent r.js AMD build tool.  In the
     // future other builders may be contributed as drop-in alternatives.

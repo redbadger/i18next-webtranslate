@@ -12,14 +12,16 @@ function(Backbone, ns, _, $, i18n) {
       , Collections = ns.modules.data.Collections
       , Models = ns.modules.data.Models;
 
-    function applyReplacement(str, replacementHash, nestedKey) {
+    function applyReplacement(str, replacementHash, nestedKey, keyseparator) {
         if (str.indexOf(i18n.options.interpolationPrefix) < 0) return str;
 
         i18n.functions.each(replacementHash, function(key, value) {
+            // HACK: to be replaced
+            if (key == 'key') value = value.replace('.', i18n.options.keyseparator);
             if (typeof value === 'object') {
                 str = applyReplacement(str, value, key);
             } else {
-                str = str.replace(new RegExp([i18n.options.interpolationPrefix, nestedKey ? nestedKey + '.' + key : key, i18n.options.interpolationSuffix].join(''), 'g'), value);
+                str = str.replace(new RegExp([i18n.options.interpolationPrefix, nestedKey ? nestedKey + i18n.options.keyseparator + key : key, i18n.options.interpolationSuffix].join(''), 'g'), value);
             }
         });
         return str;
@@ -49,6 +51,7 @@ function(Backbone, ns, _, $, i18n) {
 
             this.options = _.extend(defaults, options || {});
             this.options.ns = { namespaces: this.options.namespaces };
+            if (this.options.keyseparator) i18n.options.keyseparator = this.options.keyseparator;
 
             var lngsToLoad = [];
             for (var i = 0, l = this.options.languages.length; i < l; i++) {
