@@ -41,7 +41,8 @@ function(Backbone, ns, _, $, i18n) {
         sendTypeUpdate: 'POST',
         sendTypeRemove: 'POST',
         postAsync: 'true',
-        getAsync: 'true'
+        getAsync: 'true',
+        useJSON: false
     };
 
     _.extend(webTranslator, {
@@ -222,7 +223,7 @@ function(Backbone, ns, _, $, i18n) {
             i18n.functions.ajax({
                 url: url,
                 type: this.options.sendTypeUpdate,
-                data: payload,
+                data: this.options.useJSON ? JSON.stringify(value) : payload,
                 success: function(data, status, xhr) {
                     i18n.functions.log('posted change key \'' + key + '\' to: ' + url);
 

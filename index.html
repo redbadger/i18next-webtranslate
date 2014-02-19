@@ -35,11 +35,12 @@
           namespaces: ['app'],
           resGetPath: "https://lmtest.firebaseio.com/locales.json",
           resChangePath: 'https://lmtest.firebaseio.com/locales/__lng__/__ns__/__key__.json',
-          resRemovePath: 'https://lmtest.firebaseio.com/locales/__lng__/__ns__.json',
+          resRemovePath: 'https://lmtest.firebaseio.com/locales/__lng__/__ns__/__key__.json',
           sendTypeUpdate: 'PUT',
           sendTypeRemove: 'DELETE',
           fallbackLng: "fr",
           keyseparator: '/',
+          useJSON: true,
           dynamicLoad: true
         }
       )
