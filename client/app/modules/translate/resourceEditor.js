@@ -26,7 +26,7 @@ function(Backbone, ns, resSync, i18n) {
             '': 'editor',
             'editor': 'editor'
         },
-        
+
         controller: module.controller
     });
     var router = new Router();
@@ -67,11 +67,12 @@ function(Backbone, ns, resSync, i18n) {
 
             compareLng = this.$('#compare-lng').val();
 
-            var compareItem = resSync.flat[compareLng][ns],
-                currentItem = resSync.flat[lng][ns];
+            var flat = resSync.flat,
+                compareItem = flat && flat[compareLng] && flat[compareLng][ns] || {},
+                currentItem = flat && flat[lng] && flat[lng][ns] || {};
 
             if(currentItem.models.length > 0) {
-              var counter = currentItem.models.length, 
+              var counter = currentItem.models.length,
                   compareCounter = compareItem.models.length,
                   i = 0,
                   j = 0;
@@ -133,12 +134,12 @@ function(Backbone, ns, resSync, i18n) {
                     }, self);
 
                     self.resources.currentView.collection.sort();
-                
+
                 }
             );
 
         },
-        
+
         onRender: function() {
             var data = resSync.options
               , i, len, opt, item;
@@ -148,14 +149,14 @@ function(Backbone, ns, resSync, i18n) {
                 item = '<option value="' + opt + '">' + opt + '</option> ';
                 this.$('#languages').append($(item));
                 this.$('#compare-lng').append($(item));
-            }     
+            }
 
             for (i = 0, len = data.namespaces.length; i < len; i++) {
                 opt = data.namespaces[i];
                 item = '<option value="' + opt + '">' + opt + '</option> ';
                 this.$('#namespaces').append($(item));
             }
-            
+
             this.ui_load();
         },
 
@@ -166,7 +167,7 @@ function(Backbone, ns, resSync, i18n) {
             this.$('#namespaces').chosen().change(function() { self.ui_load(); });
             this.$('#compare-lng').chosen().change(function() { self.ui_load(); });
         }
-            
+
     });
 
     module.Views.ResourceItem = ns.ItemView.extend({
@@ -328,7 +329,7 @@ function(Backbone, ns, resSync, i18n) {
 
             // The default namespace to test is the current namespace
             opts.ns = self.model.get('ns');
-            
+
             // replace default options with any provided in test window
             var args = self.$('.i18nOptions').val();
             if (args.length > 0) {
@@ -440,7 +441,7 @@ function(Backbone, ns, resSync, i18n) {
         onClose: function() {
             if (resSync.i18nDirty) {
                 this.resetI18n();
-            } 
+            }
         },
 
         ui_compare_edit: function(e) {

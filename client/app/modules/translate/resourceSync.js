@@ -42,7 +42,8 @@ function(Backbone, ns, _, $, i18n) {
         sendTypeRemove: 'POST',
         postAsync: 'true',
         getAsync: 'true',
-        useJSON: false
+        useJSON: false,
+        useLanguageRegions: true
     };
 
     _.extend(webTranslator, {
@@ -78,7 +79,7 @@ function(Backbone, ns, _, $, i18n) {
 
         _toLanguages: function(lng) {
             var languages = [];
-            if (lng.indexOf('-') === 2 && lng.length === 5) {
+            if (this.options.useLanguageRegions && lng.indexOf('-') === 2 && lng.length === 5) {
                 var parts = lng.split('-');
 
                 lng = this.options.lowerCaseLng ?
@@ -107,8 +108,7 @@ function(Backbone, ns, _, $, i18n) {
         },
 
         flatten: function(store, options) {
-            var flat = this.flat = []
-              , lng, ns, node;
+            var flat = this.flat = [];
 
             function recurse(lng, ns, appendTo, obj, parentKey) {
 
@@ -161,11 +161,16 @@ function(Backbone, ns, _, $, i18n) {
             }
 
             // flatten
-            for (lng in store) {
-                node = store[lng];
+            var languages = options.languages || store,
+                namespaces = options.namespaces || [];
+
+            for (var i=0; i<languages.length; i++) {
+                var lng = languages[i];
+                var node = store[lng] || {};
                 flat[lng] = {};
 
-                for (ns in node) {
+                for (var j=0; j<namespaces.length; j++) {
+                    var ns = namespaces[j];
                     flat[lng][ns] = new Collections.Resources();
 
                     recurse(lng, ns, flat[lng][ns], node[ns], '');
@@ -216,20 +221,23 @@ function(Backbone, ns, _, $, i18n) {
             var self = this;
 
             var payload = {};
-            payload[key] = value;
+            if (this.options.useJSON) payload = JSON.stringify(value);
+            else payload[key] = value;
 
             var url = applyReplacement(this.options.resChangePath, { lng: lng, ns: ns, key: key });
 
             i18n.functions.ajax({
                 url: url,
                 type: this.options.sendTypeUpdate,
-                data: this.options.useJSON ? JSON.stringify(value) : payload,
+                data: payload,
                 success: function(data, status, xhr) {
                     i18n.functions.log('posted change key \'' + key + '\' to: ' + url);
 
                     // update resStore
                     var keys = key.split(self.options.keyseparator);
                     var x = 0;
+                    if (!self.resStore[lng]) self.resStore[lng] = {};
+                    if (!self.resStore[lng][ns]) self.resStore[lng][ns] = {};
                     var val = self.resStore[lng][ns];
                     while (keys[x]) {
                         if (x === keys.length - 1) {
