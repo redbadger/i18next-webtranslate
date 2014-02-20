@@ -67,4 +67,4 @@ i18n.registerAppHelper(app)
  var http = require('http')
    , server = http.createServer(app);
 
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
