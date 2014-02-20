@@ -13,7 +13,6 @@ app.configure(function() {
 
     app.use('/app', express.static(__dirname+'/client/app'));
     app.use('/assets', express.static(__dirname+'/client/assets'));
-    console.log('/assets', __dirname+'/client/assets');
     app.use('/app/templates', express.static(__dirname+'/client/assets/templates'));
 
     // for release
