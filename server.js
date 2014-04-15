@@ -17,7 +17,14 @@ app.configure(function() {
 
     // for release
     app.use('/release', express.static(__dirname+'/client/dist/release/assets'));
+    app.use('/locales', express.static(__dirname+'/locales'));
     app.use('/', express.static(__dirname+'/client/dist/release/assets'));
+});
+
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
 });
 
 app.get("/", function(req, res) {

@@ -31,13 +31,16 @@
 
       wt.config(
         {
-          languages: ['en-US', 'fr-FR'],
-          namespaces: ['app'],
-          resGetPath: "https://devminutes.firebaseio.com/locale.json",
-          resChangePath: 'https://devminutes.firebaseio.com/locale/__lng__/__ns__/__key__.json',
-          resRemovePath: 'https://devminutes.firebaseio.com/locale/__lng__/__ns__/__key__.json',
-          sendTypeUpdate: 'PUT',
-          sendTypeRemove: 'DELETE',
+          languages: ['en-US', 'de-DE'],
+          namespaces: ['app', 'special', 'common', 'new'],
+          //resGetPath: "https://devminutes.firebaseio.com/locale.json",
+          //resChangePath: 'https://devminutes.firebaseio.com/locale/__lng__/__ns__/__key__.json',
+          //resRemovePath: 'https://devminutes.firebaseio.com/locale/__lng__/__ns__/__key__.json',
+          resGetPath: "http://localhost:3001/locales/locale.json",
+          resChangePath: 'http://localhost:3001/locales/change/__lng__/__ns__/__key__',
+          resRemovePath: 'http://localhost:3001/locales/remove/__lng__/__ns__/__key__',
+          sendTypeUpdate: 'POST',
+          sendTypeRemove: 'POST',
           fallbackLng: "en-US",
           keyseparator: '/',
           useJSON: true,
