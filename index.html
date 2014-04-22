@@ -31,20 +31,17 @@
 
       wt.config(
         {
-          languages: ['en-US', 'de-DE'],
-          namespaces: ['app', 'special', 'common', 'new'],
-          //resGetPath: "https://devminutes.firebaseio.com/locale.json",
-          //resChangePath: 'https://devminutes.firebaseio.com/locale/__lng__/__ns__/__key__.json',
-          //resRemovePath: 'https://devminutes.firebaseio.com/locale/__lng__/__ns__/__key__.json',
-          resGetPath: "http://localhost:3001/locales/locale.json",
+          languages: ['pl-PL', 'en-US', 'en', 'de-DE', 'dev'],
+          namespaces: ['ns.app', 'ns.common', 'ns.layout', 'ns.msg', 'ns.public'],
+          resGetPath: 'http://localhost:3001/locales/__lng__/__ns__.json',
           resChangePath: 'http://localhost:3001/locales/change/__lng__/__ns__/__key__',
           resRemovePath: 'http://localhost:3001/locales/remove/__lng__/__ns__/__key__',
           sendTypeUpdate: 'POST',
           sendTypeRemove: 'POST',
-          fallbackLng: "en-US",
+          fallbackLng: "en",
           keyseparator: '/',
-          useJSON: true,
-          dynamicLoad: true,
+          useJSON: false,
+          dynamicLoad: false,
           useLanguageRegions: false
         }
       )

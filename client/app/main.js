@@ -29,10 +29,11 @@ function(ns, $, Backbone, i18next, resources, data, resSync) {
 
     app.store = new Backbone.Model();
 
-    app.languages = ['en', 'de', 'it', 'fr'];
+    app.languages = ['en'];
     app.resStore = resources;
 
     app.setLng = function(lng) {
+        console.log('Lng: ' + lng);
         lng = lng.substring(0,2);
         if (app.languages.indexOf(lng) < 0) lng = i18next.options.fallbackLng;
 
@@ -73,13 +74,13 @@ function(ns, $, Backbone, i18next, resources, data, resSync) {
             },
 
             config: function(i18nextWTOpts) {
-                var i18nextOpts = { 
+                var i18nextOpts = {
                     resStore: app.resStore,
                     fallbackLng: 'en'
                 };
 
                 app.addAsyncInitializer(function(options, done) {
-                    i18next.init(i18nextOpts, function(t) { 
+                    i18next.init(i18nextOpts, function(t) {
                         ns.t = t;
                         app.setLng(i18next.lng());
                         done();
@@ -98,11 +99,11 @@ function(ns, $, Backbone, i18next, resources, data, resSync) {
                 app.start(function() {
                     ns.modules.header.controller.standard();
                     ns.modules.footer.controller.standard();
-                    
+
                     Backbone.history.start(/*{ pushState: true }*/);
                 });
             }
-        }); 
+        });
     }
 
 });
